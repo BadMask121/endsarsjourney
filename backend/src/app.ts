@@ -7,9 +7,9 @@ import express, { Request, Response } from "express";
 import logger from "morgan";
 
 import { corsOption } from "./config-cors";
-import stream from "./tweet/stream";
+// import stream from "./tweet/stream";
 
-stream();
+// stream({ withNotification: true });
 const app = express();
 app.use(cors(corsOption));
 app.use(logger("dev"));

@@ -8,11 +8,16 @@
     "prepare": "npm run build",
     "lint": "tslint -p",
     "start": "node dist/app.js",
-    "start:local": "npm run build && pm2 restart ecosystem.config.js --only dev",
     "build": "tsc -p .",
+    "start:local": "npm run build && pm2 restart ecosystem.config.js --only dev",
     "dev": "set NODE_ENV=development && nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
-    "test": "mocha --exit **/*.test.js"
+    "test": "mocha --exit **/*.test.js",
+    "start:functions": "cd ./functions && yarn start",
+    "serve:functions": "cd ./functions && yarn serve",
+    "shell:functions": "cd ./functions && yarn shell",
+    "deploy:functions": "cd ./functions && yarn deploy",
+    "logs:functions": "cd ./functions && yarn logs"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

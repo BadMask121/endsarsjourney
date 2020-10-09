@@ -39,7 +39,7 @@
     "downlevelIteration": true,
     "strictNullChecks": false,
     "removeComments": true,
-    "noEmit": true,
+    // "noEmit": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

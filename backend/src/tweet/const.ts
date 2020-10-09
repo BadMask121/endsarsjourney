@@ -9,3 +9,7 @@ export const HASHTAGS = [
 export const COLLECTIONS = {
   TWEETS: "tweets",
 };
+
+export const ERRORS = {
+  CATCH_ERROR_MESSAGE: "error processing request",
+};

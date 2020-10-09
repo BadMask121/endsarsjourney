@@ -16,29 +16,57 @@
  * if tweet id already exists on database skip that tweet
  * else add the tweet to database
  */
+import * as _ from "lodash";
 
 import { twitter } from "../config";
 import { ITwitter, Tweet } from "./@types/tweet";
 import { HASHTAGS } from "./const";
 import { addTweet } from "./services/tweet";
 
-export default () => {
+export default ({ withNotification }: { withNotification?: boolean }) => {
   HASHTAGS.forEach((o) => {
     const stream = twitter.stream("statuses/filter", {
       track: `#${o}`,
     });
-    stream.on("tweet", (tweet) => runStream(o, tweet));
+    stream.on("tweet", (tweet) => runStream(o, tweet, withNotification));
   });
 };
 
-function runStream(tag: string, tweet: ITwitter) {
-  const tweetDoc: Tweet = {
-    id: tweet.id,
-    body: tweet.text,
-    user: tweet.user,
-    hashtag: tag,
-    media: tweet.entities.media,
-    timestamp: tweet.created_at,
-  };
-  addTweet(tweetDoc);
+// @ts-ignore
+function runStream(tag: string, tweet: ITwitter, withNotification = true) {
+  // we want only tweets with media
+  if (tweet?.entities?.media?.length >= 1 && tag) {
+    /**
+     * pick only need properties from media array
+     */
+    const media = _.map(
+      tweet.entities.media,
+      _.partialRight(_.pick, [
+        "id",
+        "id_str",
+        "media_url_https",
+        "media_url",
+        "display_url",
+        "type",
+        "url",
+      ])
+    );
+
+    const tweetDoc: Tweet = {
+      id: tweet.id,
+      body: tweet.text,
+      user: {
+        id: tweet.user.id,
+        id_str: tweet.user.id_str,
+        name: tweet.user.name,
+        profile_image_url:
+          tweet.user.profile_image_url_https ?? tweet.user.profile_image_url,
+      },
+      hashtag: `#${tag.toLowerCase()}`,
+      media,
+      timestamp: tweet.created_at,
+    };
+
+    addTweet(tweetDoc);
+  }
 }
