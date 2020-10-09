@@ -31,7 +31,9 @@ export const addTweet = async (tweet: Tweet) => {
  * @function getAllTweets
  * returns all tweets from database with or without tag name
  */
-export const getAllTweets = async (tag?: string): Promise<Tweet[]> => {
+export const getAllTweets = async (
+  tag?: string
+): Promise<{ counts: number; tweets: Tweet[] }> => {
   try {
     let tweetQuery = db.collection(COLLECTIONS.TWEETS);
 
@@ -39,14 +41,14 @@ export const getAllTweets = async (tag?: string): Promise<Tweet[]> => {
       tweetQuery = tweetQuery.where(
         "hashtag",
         "==",
-        tag.toLowerCase()
+        `#${tag.toLowerCase()}`
       ) as FirebaseFirestore.CollectionReference<
         FirebaseFirestore.DocumentData
       >;
     }
 
     const tweetDocs = await tweetQuery.get();
-    if (tweetDocs.size >= 0) {
+    if (tweetDocs.size <= 0) {
       return Promise.reject(new Error("Tweets not found"));
     }
 
@@ -61,7 +63,7 @@ export const getAllTweets = async (tag?: string): Promise<Tweet[]> => {
       if (tweets.length === tweetDocs.size) resolve(tweets);
     });
 
-    return Promise.resolve(tweets);
+    return Promise.resolve({ counts: tweets.length, tweets });
   } catch (error) {
     console.error(error);
     return Promise.reject(new Error("Tweet not found"));
@@ -80,7 +82,7 @@ export const getTweetByID = async (id: string): Promise<Tweet> => {
       .where("id", "==", id)
       .get();
 
-    if (tweetQuery.size >= 0) {
+    if (tweetQuery.size <= 0) {
       return Promise.reject(new Error("Tweet not found"));
     }
     const data = tweetQuery.docs[0].data() as Tweet; // gets first data only

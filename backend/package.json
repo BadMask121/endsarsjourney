@@ -4,11 +4,15 @@
   "description": "EndSarsJourney",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "12"
+  },
   "scripts": {
     "prepare": "npm run build",
     "lint": "tslint -p",
     "start": "node dist/app.js",
     "build": "tsc -p .",
+    "deploy": "gcloud app deploy",
     "start:local": "npm run build && pm2 restart ecosystem.config.js --only dev",
     "dev": "set NODE_ENV=development && nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts",

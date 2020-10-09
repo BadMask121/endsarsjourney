@@ -6,8 +6,12 @@ import * as functions from "firebase-functions";
 
 dotenv.config();
 
+const firebaseconfig = require(process.env.FIREBASE_CONFIG);
 const app = admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: firebaseconfig
+    ? admin.credential.cert(require(process.env.FIREBASE_CONFIG))
+    : admin.credential.applicationDefault(),
+
   databaseURL: "https://tweq-5cbdb.firebaseio.com",
 });
 
