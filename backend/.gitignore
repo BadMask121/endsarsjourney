@@ -89,3 +89,4 @@ app.yaml
 
 # Coverage Reports
 coverage
+dist
