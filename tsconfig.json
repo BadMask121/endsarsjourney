@@ -6,17 +6,17 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts",
+    "backend/src/setupTests.ts",
     "**/*.test.tsx",
     "**/*.test.ts",
-    "src/**/*/*.test.tsx"
+    "backend/src/**/*/*.test.tsx"
   ],
   "types": ["typePatches"],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "src",
+    "baseUrl": "backend/src",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -44,5 +44,11 @@
     "noUnusedParameters": true
   },
 
-  "include": ["**/*.ts", "**/*.tsx", "src", "src/**/*", "package.json"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "backend/src",
+    "backend/src/**/*",
+    "package.json"
+  ]
 }
