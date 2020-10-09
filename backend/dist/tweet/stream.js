@@ -58,7 +58,7 @@ function runStream(tag, tweet, withNotification) {
             media: media,
             timestamp: new Date(tweet.created_at).getTime(),
         };
-        tweet_1.addTweet(tweetDoc);
+        tweet_1.addTweet(tweetDoc, withNotification);
     }
 }
 //# sourceMappingURL=stream.js.map

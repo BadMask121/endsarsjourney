@@ -1,4 +1,4 @@
-import { db } from "../../config";
+import { db, pusher } from "../../config";
 import { Tweet } from "../@types/tweet";
 import { COLLECTIONS } from "../const";
 
@@ -8,7 +8,7 @@ import { COLLECTIONS } from "../const";
  * @param tweet
  * add tweet to db
  */
-export const addTweet = async (tweet: Tweet) => {
+export const addTweet = async (tweet: Tweet, withNotification?: boolean) => {
   try {
     const isExist = await checkIfTweetExists(tweet.id);
     if (!isExist) {
@@ -17,6 +17,10 @@ export const addTweet = async (tweet: Tweet) => {
       if (!tweetQuery) {
         return Promise.reject(new Error("Error writing to database"));
       }
+
+      // send notification via pusher
+      withNotification &&
+        pusher.trigger("new-tweet-channel", "new-tweet", { tweet });
 
       return Promise.resolve(tweet.id);
     }
@@ -51,13 +55,12 @@ export const getAllTweets = async (
     if (typeof cursor !== "undefined") {
       tweetQuery = tweetQuery
         .orderBy("timestamp", "desc")
-        .startAfter(parseInt(cursor))
-        .limit(20) as FirebaseFirestore.CollectionReference<
+        .startAfter(parseInt(cursor)) as FirebaseFirestore.CollectionReference<
         FirebaseFirestore.DocumentData
       >;
     }
 
-    const tweetDocs = await tweetQuery.get();
+    const tweetDocs = await tweetQuery.limit(20).get(); // limit to 20 per scroll
     if (tweetDocs.size <= 0) {
       return Promise.reject(new Error("Tweets not found"));
     }

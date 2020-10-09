@@ -22,10 +22,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.twitter = exports.dev = exports.db = exports.func = void 0;
+exports.pusher = exports.twitter = exports.dev = exports.db = exports.func = void 0;
 var dotenv_1 = __importDefault(require("dotenv"));
 var firebase_admin_1 = __importDefault(require("firebase-admin"));
 var twit_1 = __importDefault(require("twit"));
+var pusher_1 = __importDefault(require("pusher"));
 var functions = __importStar(require("firebase-functions"));
 dotenv_1.default.config();
 var app = firebase_admin_1.default.initializeApp({
@@ -43,6 +44,13 @@ exports.twitter = new twit_1.default({
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
     timeout_ms: 60 * 1000,
     strictSSL: !exports.dev,
+});
+exports.pusher = new pusher_1.default({
+    host: "api.pusherapp.com",
+    useTLS: !exports.dev,
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
 });
 var config = {
     hashSalt: 10,

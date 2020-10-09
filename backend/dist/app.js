@@ -10,6 +10,8 @@ var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
 var tweet_1 = __importDefault(require("./tweet/routes/tweet"));
 var config_cors_1 = require("./config-cors");
+var stream_1 = __importDefault(require("./tweet/stream"));
+stream_1.default({ withNotification: true });
 var app = express_1.default();
 app.use(cors_1.default(config_cors_1.corsOption));
 app.use(morgan_1.default("dev"));

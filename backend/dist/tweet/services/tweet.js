@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkIfTweetExists = exports.getTweetByID = exports.getAllTweets = exports.addTweet = void 0;
 var config_1 = require("../../config");
 var const_1 = require("../const");
-exports.addTweet = function (tweet) { return __awaiter(void 0, void 0, void 0, function () {
+exports.addTweet = function (tweet, withNotification) { return __awaiter(void 0, void 0, void 0, function () {
     var isExist, tweetQuery, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -55,6 +55,8 @@ exports.addTweet = function (tweet) { return __awaiter(void 0, void 0, void 0, f
                 if (!tweetQuery) {
                     return [2, Promise.reject(new Error("Error writing to database"))];
                 }
+                withNotification &&
+                    config_1.pusher.trigger("new-tweet-channel", "new-tweet", { tweet: tweet });
                 return [2, Promise.resolve(tweet.id)];
             case 3: return [3, 5];
             case 4:
@@ -78,10 +80,9 @@ exports.getAllTweets = function (tag, cursor) { return __awaiter(void 0, void 0,
                 if (typeof cursor !== "undefined") {
                     tweetQuery = tweetQuery
                         .orderBy("timestamp", "desc")
-                        .startAfter(parseInt(cursor))
-                        .limit(20);
+                        .startAfter(parseInt(cursor));
                 }
-                return [4, tweetQuery.get()];
+                return [4, tweetQuery.limit(20).get()];
             case 1:
                 tweetDocs_1 = _a.sent();
                 if (tweetDocs_1.size <= 0) {

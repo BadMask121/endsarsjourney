@@ -15,6 +15,7 @@ export const getTweets = async (req: Request, res: Response) => {
     }
     const tag = req.query?.tag as string;
     const cursor = req.query?.cursor as string;
+
     const tweetsResults = await tweetService.getAllTweets(tag, cursor);
     succesRes("success", res, tweetsResults);
     return;
