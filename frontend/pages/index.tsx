@@ -67,7 +67,6 @@ export default function Home() {
   };
 
   const toggleTheme = () => {
-    console.log('I got here');
     if (theme === 'light') {
       setMode('dark');
     } else {
