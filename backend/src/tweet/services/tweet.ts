@@ -32,7 +32,8 @@ export const addTweet = async (tweet: Tweet) => {
  * returns all tweets from database with or without tag name
  */
 export const getAllTweets = async (
-  tag?: string
+  tag?: string,
+  cursor?: string
 ): Promise<{ counts: number; tweets: Tweet[] }> => {
   try {
     let tweetQuery = db.collection(COLLECTIONS.TWEETS);
@@ -43,6 +44,15 @@ export const getAllTweets = async (
         "==",
         `#${tag.toLowerCase()}`
       ) as FirebaseFirestore.CollectionReference<
+        FirebaseFirestore.DocumentData
+      >;
+    }
+
+    if (typeof cursor !== "undefined") {
+      tweetQuery = tweetQuery
+        .orderBy("timestamp", "desc")
+        .startAfter(parseInt(cursor))
+        .limit(20) as FirebaseFirestore.CollectionReference<
         FirebaseFirestore.DocumentData
       >;
     }

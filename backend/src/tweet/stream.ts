@@ -64,7 +64,7 @@ function runStream(tag: string, tweet: ITwitter, withNotification = true) {
       },
       hashtag: `#${tag.toLowerCase()}`,
       media,
-      timestamp: tweet.created_at,
+      timestamp: new Date(tweet.created_at).getTime(),
     };
 
     addTweet(tweetDoc);
