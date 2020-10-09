@@ -65,7 +65,6 @@ function runStream(tag: string, tweet: ITwitter, withNotification = true) {
       media,
       timestamp: new Date(tweet.created_at).getTime(),
     };
-
     addTweet(tweetDoc, withNotification);
   }
 }
