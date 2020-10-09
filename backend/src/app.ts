@@ -5,17 +5,21 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Request, Response } from "express";
 import logger from "morgan";
+import tweetRoute from "./tweet/routes/tweet";
 
 import { corsOption } from "./config-cors";
-import stream from "./tweet/stream";
+// import stream from "./tweet/stream";
 
-stream();
+// stream({ withNotification: true });
 const app = express();
 app.use(cors(corsOption));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//[ROUTES]
+app.use("/tweets", tweetRoute);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

@@ -6,6 +6,7 @@
     "lib": [
       "es6",
       "dom"
-    ] /* Specify library files to be included in the compilation. */
+    ] /* Specify library files to be included in the compilation. */,
+    "outDir": "./dist"
   }
 }

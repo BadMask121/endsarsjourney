@@ -2,15 +2,22 @@ import dotenv from "dotenv";
 import admin from "firebase-admin";
 import Twitter from "twit";
 import { RedisClient } from "redis";
+import * as functions from "firebase-functions";
 
 dotenv.config();
 
+const firebaseconfig = require(process.env.FIREBASE_CONFIG);
 const app = admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: firebaseconfig
+    ? admin.credential.cert(require(process.env.FIREBASE_CONFIG))
+    : admin.credential.applicationDefault(),
+
+  databaseURL: "https://tweq-5cbdb.firebaseio.com",
 });
 
 app.firestore().settings({ ignoreUndefinedProperties: true });
 
+export const func = functions;
 export const db = app.firestore();
 
 export const dev = process.env.NODE_ENV === "development";
