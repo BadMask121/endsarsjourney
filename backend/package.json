@@ -10,7 +10,7 @@
   "scripts": {
     "prepare": "npm run build",
     "lint": "tslint -p",
-    "start": "node app.js",
+    "start": "node ./dist/app.js",
     "build": "tsc -p .",
     "deploy": "gcloud app deploy --project tweq-5cbdb",
     "start:local": "npm run build && pm2 restart ecosystem.config.js --only dev",
