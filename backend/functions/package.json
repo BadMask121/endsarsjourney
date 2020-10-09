@@ -5,7 +5,8 @@
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
+    "clean": "rm -rf lib/",
+    "deploy": "npm run clean && firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {

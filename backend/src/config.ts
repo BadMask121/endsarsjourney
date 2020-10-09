@@ -2,23 +2,22 @@ import dotenv from "dotenv";
 import admin from "firebase-admin";
 import Twitter from "twit";
 import { RedisClient } from "redis";
+import Pusher from "pusher";
 import * as functions from "firebase-functions";
 
 dotenv.config();
 
-const firebaseconfig = require(process.env.FIREBASE_CONFIG);
+// const firebaseconfig = require(process.env.FIREBASE_CONFIG) || null;
 const app = admin.initializeApp({
-  credential: firebaseconfig
-    ? admin.credential.cert(require(process.env.FIREBASE_CONFIG))
-    : admin.credential.applicationDefault(),
-
+  credential: admin.credential.applicationDefault(),
   databaseURL: "https://tweq-5cbdb.firebaseio.com",
 });
 
 app.firestore().settings({ ignoreUndefinedProperties: true });
 
-export const func = functions;
-export const db = app.firestore();
+export const func = functions; // cloud function
+
+export const db = app.firestore(); // firebase db
 
 export const dev = process.env.NODE_ENV === "development";
 
@@ -30,6 +29,15 @@ export const twitter = new Twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET,
   timeout_ms: 60 * 1000,
   strictSSL: !dev,
+});
+
+// pusher config
+export const pusher = new Pusher({
+  host: "api.pusherapp.com",
+  useTLS: !dev,
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
 });
 
 const config = {

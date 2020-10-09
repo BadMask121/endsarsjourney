@@ -74,7 +74,6 @@ yarn-error.log*
 
 .DS_Store
 node_modules
-/dist
 
 # Editor directories and files
 .idea
@@ -90,3 +89,4 @@ app.yaml
 
 # Coverage Reports
 coverage
+dist

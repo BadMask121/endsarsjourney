@@ -32,7 +32,6 @@ export default ({ withNotification }: { withNotification?: boolean }) => {
   });
 };
 
-// @ts-ignore
 function runStream(tag: string, tweet: ITwitter, withNotification = true) {
   // we want only tweets with media
   if (tweet?.entities?.media?.length >= 1 && tag) {
@@ -64,9 +63,9 @@ function runStream(tag: string, tweet: ITwitter, withNotification = true) {
       },
       hashtag: `#${tag.toLowerCase()}`,
       media,
-      timestamp: tweet.created_at,
+      timestamp: new Date(tweet.created_at).getTime(),
     };
 
-    addTweet(tweetDoc);
+    addTweet(tweetDoc, withNotification);
   }
 }
