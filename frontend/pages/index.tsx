@@ -1,80 +1,123 @@
-// import Head from 'next/head'
-// import styles from '../styles/Home.module.css'
-
-// export default function Home() {
-//   return (
-//     <div className={styles.container}>
-//       <Head>
-//         <title>Create Next App</title>
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
-
-//       <main className={styles.main}>
-//         <h1 className={styles.title}>
-//           Welcome to <a href="https://nextjs.org">Next.js!</a>
-//         </h1>
-
-//         <p className={styles.description}>
-//           Get started by editing{' '}
-//           <code className={styles.code}>pages/index.js</code>
-//         </p>
-
-//         <div className={styles.grid}>
-//           <a href="https://nextjs.org/docs" className={styles.card}>
-//             <h3>Documentation &rarr;</h3>
-//             <p>Find in-depth information about Next.js features and API.</p>
-//           </a>
-
-//           <a href="https://nextjs.org/learn" className={styles.card}>
-//             <h3>Learn &rarr;</h3>
-//             <p>Learn about Next.js in an interactive course with quizzes!</p>
-//           </a>
-
-//           <a
-//             href="https://github.com/vercel/next.js/tree/master/examples"
-//             className={styles.card}
-//           >
-//             <h3>Examples &rarr;</h3>
-//             <p>Discover and deploy boilerplate example Next.js projects.</p>
-//           </a>
-
-//           <a
-//             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-//             className={styles.card}
-//           >
-//             <h3>Deploy &rarr;</h3>
-//             <p>
-//               Instantly deploy your Next.js site to a public URL with Vercel.
-//             </p>
-//           </a>
-//         </div>
-//       </main>
-
-//       <footer className={styles.footer}>
-//         <a
-//           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Powered by{' '}
-//           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-//         </a>
-//       </footer>
-//     </div>
-//   )
-// }
-
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.scss';
+import { ThemeProvider } from 'styled-components';
+import MediaContainer from '../components/mediaContainer/mediaContainer';
+import Tags from '../components/tags/tags';
+import { lightTheme, darkTheme } from '../theme/theme';
+import { GlobalStyles } from '../theme/global';
+import ToggleSwitch from '../components/switch/switch';
+
+const TagName = [
+  {
+    id: 1,
+    name: 'EndSars',
+  },
+
+  {
+    id: 2,
+    name: 'EndSarsProtest',
+  },
+  {
+    id: 3,
+    name: 'EndSarsNow',
+  },
+  {
+    id: 4,
+    name: 'EndSarsImmediately',
+  },
+  {
+    id: 5,
+    name: 'EndSars!!!',
+  },
+];
+
+const MediaContent = [
+  {
+    id: 1,
+    media: '',
+    username: '@chuks',
+    dateTime: '5:15 PM · Oct 9, 2020',
+  },
+  {
+    id: 2,
+    media: '',
+    username: '@bigbrutha',
+    dateTime: '5:15 PM · Oct 9, 2020',
+  },
+  {
+    id: 4,
+    media: '',
+    username: '@dewaleolaoye',
+    dateTime: '5:15 PM · Oct 9, 2020',
+  },
+  {
+    id: 3,
+    media: '',
+    username: '@badmask121',
+    dateTime: '5:15 PM · Oct 9, 2020',
+  },
+];
 
 export default function Home() {
+  const [theme, setTheme] = useState('light');
+
+  const setMode = (mode: string) => {
+    window.localStorage.setItem('theme', mode);
+    setTheme(mode);
+  };
+
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      setMode('dark');
+    } else {
+      setMode('light');
+    }
+  };
+
+  useEffect(() => {
+    const localTheme = window.localStorage.getItem('theme');
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches &&
+    !localTheme
+      ? setMode('dark')
+      : localTheme
+      ? setTheme(localTheme)
+      : setMode('light');
+  }, []);
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>End SARS Journey #ENDSARS</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <h1>End Sars Journey!!!</h1>
-    </div>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <GlobalStyles />
+
+      <div className='switchWrapper'>
+        <ToggleSwitch switchHandler={toggleTheme} />
+      </div>
+
+      <div className='container'>
+        <Head>
+          <title>End SARS Journey #ENDSARS</title>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+        <h1>End Sars Journey!!!</h1>
+
+        <div className='container-tagWrapper'>
+          {TagName.map(({ id, name }) => {
+            return <Tags key={id} tagName={name} />;
+          })}
+        </div>
+
+        <div className='container-mediaWrapper'>
+          {MediaContent.map(({ id, dateTime, media, username }) => {
+            return (
+              <MediaContainer
+                key={id}
+                dateTime={dateTime}
+                username={username}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
