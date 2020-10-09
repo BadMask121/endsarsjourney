@@ -1,10 +1,15 @@
 "use strict";
+import "./config";
 
-import express, { Request, Response } from "express";
-import { corsOption } from "./config-cors";
-import cors from "cors";
-import logger from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { Request, Response } from "express";
+import logger from "morgan";
+
+import { corsOption } from "./config-cors";
+import stream from "./tweet/stream";
+
+stream();
 const app = express();
 app.use(cors(corsOption));
 app.use(logger("dev"));
@@ -15,6 +20,7 @@ app.use(cookieParser());
 // Start the server
 const PORT = process.env.PORT || 8080;
 
+//@ts-ignore
 app.use((req: Request, res: Response) => {
   res.status(403).send("Route not found").end();
 });

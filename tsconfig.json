@@ -9,14 +9,19 @@
     "backend/src/setupTests.ts",
     "**/*.test.tsx",
     "**/*.test.ts",
-    "backend/src/**/*/*.test.tsx"
+    "backend/src/**/*/*.test.ts",
+    "frontent/src/**"
   ],
   "types": ["typePatches"],
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": "backend/src",
+    "baseUrl": ".",
+    "paths": {
+      "backend/*": ["backend/src/*"],
+      "client/*": ["frontent/src/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -44,11 +49,5 @@
     "noUnusedParameters": true
   },
 
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "backend/src",
-    "backend/src/**/*",
-    "package.json"
-  ]
+  "include": ["backend/src", "backend/src/**/*", "package.json"]
 }
