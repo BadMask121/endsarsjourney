@@ -5,3 +5,7 @@ export const HASHTAGS = [
   "EndSarsImmediately",
   "EndSarsProtests",
 ];
+
+export const COLLECTIONS = {
+  TWEETS: "tweets",
+};

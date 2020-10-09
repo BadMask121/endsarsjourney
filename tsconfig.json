@@ -39,7 +39,6 @@
     "downlevelIteration": true,
     "strictNullChecks": false,
     "removeComments": true,
-    "outDir": "./dist",
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,

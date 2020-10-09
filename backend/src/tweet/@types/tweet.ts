@@ -1,12 +1,17 @@
 export type Tweet = {
+  id: string;
+  user: User;
   body: string;
-  credit: string;
   hashtag: string;
-  media: string;
+  media: Media[];
+  timestamp: string | number;
 };
 
 export interface ITwitter {
+  id: string;
   text?: string;
+  created_at?: string;
+  user?: User;
   entities?: Entities;
 }
 
@@ -42,4 +47,12 @@ export interface Large {
   w?: number;
   h?: number;
   resize?: string;
+}
+
+export interface User {
+  id?: number;
+  id_str?: string;
+  name?: string;
+  profile_image_url?: string;
+  profile_image_url_https?: string;
 }
