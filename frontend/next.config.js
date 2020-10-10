@@ -1,14 +1,13 @@
-const webpack = require("webpack");
+const webpack = require('webpack');
 // Initialize doteenv library
-require("dotenv").config();
-
+require('dotenv').config();
 
 module.exports = {
-  webpack: config => {
+  webpack: (config) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
-      fs: 'empty'
-    }
+      fs: 'empty',
+    };
     /**
      * Returns environment variables as an object
      */
@@ -21,13 +20,22 @@ module.exports = {
      * at compile time, which in our case is our environment variables
      */
     config.plugins.push(new webpack.DefinePlugin(env));
-    return config
-  }
-}
 
-module.exports = {
-  env: {
-    ENV: process.env.NODE_ENV,
-    "MY_API": "hello"
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: {
+        test: /\.(js|ts)x?$/,
+      },
+      use: ['@svgr/webpack'],
+    });
+
+    return config;
   },
-}
+};
+
+// module.exports = {
+//   env: {
+//     ENV: process.env.NODE_ENV,
+//     MY_API: 'hello',
+//   },
+// };
