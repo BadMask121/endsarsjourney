@@ -19,7 +19,7 @@
 import * as _ from "lodash";
 
 import { twitter } from "../config";
-import { ITwitter, Tweet } from "./@types/tweet";
+import { ITwitter, Tweet } from "../../../@types/tweet";
 import { HASHTAGS } from "./const";
 import { addTweet } from "./services/tweet";
 

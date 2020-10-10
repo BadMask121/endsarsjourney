@@ -3,15 +3,15 @@
   max-width: 45vw;
   margin: 0 auto;
 
-  @media screen and (max-device-width: "420px") {
+  @media screen and (max-device-width: '800px') {
     max-width: 90vw;
   }
 
-  @media screen and (min-device-width: "600px") and (max-device-width: "768px") {
+  @media screen and (min-device-width: '600px') and (max-device-width: '768px') {
     max-width: 65vw;
   }
 
-  @media screen and (min-device-width: "1024px") and (max-device-width: "1200px") {
+  @media screen and (min-device-width: '1024px') and (max-device-width: '1200px') {
     max-width: 55vw;
   }
 
@@ -43,6 +43,8 @@
 
   &-mediaWrapper {
     .media-container {
+      display: block;
+      contain: layout;
       border-radius: 10px;
       margin-bottom: 3rem;
       box-shadow: rgba(98, 125, 152, 0.24) 0px 6px 18px;
@@ -51,7 +53,18 @@
         border-radius: 10px 10px 0px 0px;
         background-color: #141d26;
         box-shadow: rgba(98, 125, 152, 0.24) 0px 0px 5px inset;
-        height: 40vh;
+        // height: 500px;
+        * > ul {
+          width: 100% !important;
+          height: 100%;
+        }
+        * > img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: cover;
+          height: 100%;
+          width: 100%;
+        }
       }
 
       &__poster {
@@ -109,7 +122,7 @@
 
     .slider:before {
       position: absolute;
-      content: "";
+      content: '';
       height: 26px;
       width: 26px;
       left: 4px;

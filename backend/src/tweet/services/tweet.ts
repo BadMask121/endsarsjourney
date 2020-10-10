@@ -1,5 +1,5 @@
 import { db, pusher } from "../../config";
-import { Tweet } from "../@types/tweet";
+import { Tweet } from "../../../../@types/tweet";
 import { COLLECTIONS } from "../const";
 
 /**

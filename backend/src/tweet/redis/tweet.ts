@@ -1,6 +1,6 @@
 import config from "../../config";
 import redis from "redis";
-import { ITweetRedisToken } from "../@types/redis";
+import { ITweetRedisToken } from "../../../../@types/redis";
 import { ERRORS } from "../const";
 
 if (!config.redis.client)

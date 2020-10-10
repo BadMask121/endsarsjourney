@@ -48,5 +48,5 @@
     "noUnusedParameters": true
   },
 
-  "include": ["backend/src", "backend/src/**/*", "package.json"]
+  "include": ["backend/src", "backend/src/**/*", "package.json", "@types"]
 }
