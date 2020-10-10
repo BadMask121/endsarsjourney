@@ -34,6 +34,14 @@ const TagName = [
     id: 5,
     name: 'EndSarsImmediately',
   },
+  {
+    id: 6,
+    name: 'EndSARS',
+  },
+  {
+    id: 7,
+    name: 'EndPoliceBrutality',
+  },
 ];
 
 const TagWrapper = () => {
