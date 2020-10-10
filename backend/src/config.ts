@@ -43,12 +43,6 @@ export const pusher = new Pusher({
 const config = {
   hashSalt: 10,
 
-  jwt: {
-    secret: {
-      authTokenVerification: "testing api",
-    },
-  },
-
   redis: {
     options: {
       host: process.env.REDISHOST || "localhost",
