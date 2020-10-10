@@ -19,7 +19,7 @@
 import * as _ from "lodash";
 
 import { twitter } from "../config";
-import { ITwitter, Tweet } from "./@types/tweet";
+import { ITwitter, Tweet } from "../../../@types/tweet";
 import { HASHTAGS } from "./const";
 import { addTweet } from "./services/tweet";
 
@@ -65,7 +65,6 @@ function runStream(tag: string, tweet: ITwitter, withNotification = true) {
       media,
       timestamp: new Date(tweet.created_at).getTime(),
     };
-
     addTweet(tweetDoc, withNotification);
   }
 }

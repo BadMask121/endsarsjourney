@@ -1,13 +1,14 @@
 import React from 'react';
+import { Button, ButtonProps } from '@chakra-ui/core';
 
-interface TagProps {
+interface TagProps extends ButtonProps {
   tagName: string;
 }
-const Tags = ({ tagName }: TagProps) => {
+const Tags = ({ tagName, ...props }: TagProps) => {
   return (
-    // <div className='tags'>
-    <p className='tags'>#{tagName}</p>
-    // </div>
+    <Button aria-label={tagName} as='button' className='tags' {...props}>
+      #{tagName}
+    </Button>
   );
 };
 
