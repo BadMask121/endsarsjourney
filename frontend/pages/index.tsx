@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import { ThemeProvider } from "styled-components";
-import MediaContainer from "../components/mediaContainer/mediaContainer";
-import Tags from "../components/tags/tags";
-import { lightTheme, darkTheme } from "../theme/theme";
-import { GlobalStyles } from "../theme/global";
-import ToggleSwitch from "../components/switch/switch";
-import { ChakraProvider, Text } from "@chakra-ui/core";
+import { ChakraProvider, Text } from '@chakra-ui/core';
+import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+
+import MediaContainer from '../components/mediaContainer/mediaContainer';
+import ToggleSwitch from '../components/switch/switch';
+import Tags from '../components/tags/tags';
+import {  GlobalStyles } from '../theme/global';
+import { darkTheme,  lightTheme,  } from '../theme/theme';
+import { Axios } from 'axios';
 
 const TagName = [
   {
@@ -31,6 +33,8 @@ const TagName = [
     name: "EndSars!!!",
   },
 ];
+
+const url = `https://endsars-dot-tweq-5cbdb.appspot.com/tweets?tag=endsars`;
 
 const MediaContent = [
   {
@@ -60,7 +64,39 @@ const MediaContent = [
 ];
 
 export default function Home() {
-  const [theme, setTheme] = useState("light");
+  const [tweet, setTweetData] = useState({
+    data: [
+      {
+        conts: '',
+        tweets: [
+          {
+            id: '',
+            timestamp: '',
+            body: '',
+            media: {
+              display_url: '',
+              id: '',
+              id_str: '',
+              media_url: '',
+              media_url_https: '',
+              type: '',
+              url: '',
+            },
+            hashtag: '',
+            user: {
+              id: '',
+              name: '',
+              profile_image_url: '',
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  const [theme, setTheme] = useState('light');
+
+  const [todos, setTodos] = useState([]);
 
   const setMode = (mode: string) => {
     window.localStorage.setItem("theme", mode);
@@ -76,15 +112,20 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem("theme");
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches &&
-    !localTheme
-      ? setMode("dark")
+    Axios.get(url).then((res) => {
+      const response = res.data;
+      setTweetData(response);
+    });
+
+    const localTheme = window.localStorage.getItem('theme');
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localTheme
+      ? setMode('dark')
       : localTheme
       ? setTheme(localTheme)
       : setMode("light");
   }, []);
+
+  console.log(tweet, 'tweet data');
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
