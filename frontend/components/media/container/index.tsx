@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import React, { useEffect } from 'react';
 import day from 'dayjs';
-import { Spinner, Box, Text } from '@chakra-ui/core';
+import { Spinner, Box, Text, Link } from '@chakra-ui/core';
 import { MediaContent } from '..';
 import { useTweetContext } from '../../context/Tweet';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -21,11 +21,13 @@ const Container = () => {
     return (
       Array.isArray(tweets) &&
       tweets.map((o) => (
-        <MediaContent
-          dateTime={day(o.timestamp).format('DD MMM YYYY, HH:MM')}
-          username={o.user.name}
-          media={o.media}
-        />
+        <Link key={o.id} href={o.media[0].url} target='__blank'>
+          <MediaContent
+            dateTime={day(o.timestamp).format('DD MMM YYYY, HH:MM')}
+            username={o.user.name}
+            media={o.media}
+          />
+        </Link>
       ))
     );
   }, [tweets]);
