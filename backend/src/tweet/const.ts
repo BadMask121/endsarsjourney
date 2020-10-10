@@ -4,6 +4,8 @@ export const HASHTAGS = [
   "EndSarsProtest",
   "EndSarsImmediately",
   "EndSarsProtests",
+  "EndSARS",
+  "EndPoliceBrutality",
 ];
 
 export const COLLECTIONS = {
