@@ -49,7 +49,8 @@ const Container = () => {
       {!error.error ? (
         <InfiniteScroll
           dataLength={tweets.length} //This is important field to render the next data
-          next={(e) => {
+          //  @ts-ignore
+          next={() => {
             if (tweets?.[tweets.length - 1]?.timestamp) {
               fetchTweets({
                 lastTimestamp: tweets[tweets.length - 1].timestamp as number,
