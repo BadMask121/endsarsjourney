@@ -1,8 +1,9 @@
 const allowedOrigins = [
   "http://localhost:3300",
   "http://localhost:3000",
-  "https://endsarsjourney-jawcqqbhs.vercel.app/",
-  "https://endsarsjourney.vercel.app/",
+  "https://endsarsjourney-jawcqqbhs.vercel.app",
+  "https://endsarsjourney.vercel.app",
+  "endsarsjourney.vercel.app",
 ];
 
 export const corsOption = {
@@ -22,6 +23,5 @@ export const corsOption = {
   },
 
   exposedHeaders: ["Content-Length", "X-Foo", "X-Bar"],
-
   credentials: true,
 };
