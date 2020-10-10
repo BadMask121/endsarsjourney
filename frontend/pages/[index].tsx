@@ -28,11 +28,11 @@ const TagName = [
   },
   {
     id: 4,
-    name: 'EndSarsImmediately',
+    name: 'EndSarsProtests',
   },
   {
     id: 5,
-    name: 'EndSarsProtests',
+    name: 'EndSarsImmediately',
   },
 ];
 
