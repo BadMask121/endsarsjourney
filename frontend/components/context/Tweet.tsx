@@ -138,32 +138,31 @@ export const TweetProvider = ({ children }) => {
    *
    * @param param0
    */
-  const fetchTweets = React.useCallback(
-    async ({ tag, lastTimestamp, cancelToken }: Partial<TweetFetchType>) => {
-      try {
-        setloading(true);
-        let reformUrl = null;
-        const urlObject: Partial<{ tag: string; cursor: number }> = {};
+  const fetchTweets = React.useCallback(async (param: Partial<TweetFetchType>) => {
+    try {
+      setloading(true);
+      let reformUrl = null;
+      const urlObject: Partial<{ tag: string; cursor: number }> = {};
 
-        if (tag) urlObject.tag = tag;
-        if (lastTimestamp) urlObject.cursor = lastTimestamp;
+      if (param?.tag) urlObject.tag = param.tag;
+      if (param?.lastTimestamp) urlObject.cursor = param.lastTimestamp;
 
-        reformUrl = `${TWEETS_URL}?${qs.stringify(urlObject)}`; // stringify query params
+      reformUrl = `${TWEETS_URL}?${qs.stringify(urlObject)}`; // stringify query params
 
-        const result = await Axios.get(reformUrl, { cancelToken });
+      const result = await Axios.get(reformUrl, { cancelToken: param?.cancelToken });
 
-        if (!result?.data?.error && result.data?.data?.tweets) {
-          const tweets = result.data?.data?.tweets;
+      if (!result?.data?.error && result.data?.data?.tweets) {
+        const tweets = result.data?.data?.tweets;
 
-          setTweets(tweets, lastTimestamp ? FETCH_PAGINATION_TWEETS : FETCH_INITIAL_TWEETS);
-          return Promise.resolve(tweets);
-        }
-      } catch (error) {
-        seterror(error?.message as string);
+        setTweets(tweets, param?.lastTimestamp ? FETCH_PAGINATION_TWEETS : FETCH_INITIAL_TWEETS);
+        return Promise.resolve(tweets);
+      } else {
+        seterror(result?.data?.error);
       }
-    },
-    []
-  );
+    } catch (error) {
+      seterror(error?.message as string);
+    }
+  }, []);
 
   return (
     <TweetContext.Provider value={{ ...state, dispatch, fetchTweets, seterror, setloading }}>

@@ -1,7 +1,7 @@
 import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import day from 'dayjs';
-import { Spinner, Box } from '@chakra-ui/core';
+import { Spinner, Box, Text } from '@chakra-ui/core';
 import { MediaContent } from '..';
 import { useTweetContext } from '../../context/Tweet';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -36,45 +36,50 @@ const Container = () => {
     </Box>
   );
 
+  const NotFound = () => (
+    <Box width='100%' d='flex' alignItems='center' justifyContent='center' paddingBottom='20px'>
+      <Text fontSize='30px' fontWeight='bold' style={{ color: 'red' }}>
+        Did we finally get justice?
+      </Text>
+    </Box>
+  );
+
   return (
     <React.Fragment>
-      <InfiniteScroll
-        dataLength={tweets.length} //This is important field to render the next data
-        next={(e) => {
-          if (tweets?.[tweets.length - 1]?.timestamp) {
-            fetchTweets({
-              lastTimestamp: tweets[tweets.length - 1].timestamp as number,
-              tag: query?.index as string,
-            });
+      {!error.error ? (
+        <InfiniteScroll
+          dataLength={tweets.length} //This is important field to render the next data
+          next={(e) => {
+            if (tweets?.[tweets.length - 1]?.timestamp) {
+              fetchTweets({
+                lastTimestamp: tweets[tweets.length - 1].timestamp as number,
+                tag: query?.index as string,
+              });
+            }
+          }}
+          hasMore={true}
+          loader={<Loader />}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>You have seen it all</b>
+            </p>
           }
-        }}
-        hasMore={true}
-        loader={<Loader />}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-        // below props only if you need pull down functionality
-        refreshFunction={() => {
-          if (tweets?.[0]?.timestamp) {
-            fetchTweets({
-              lastTimestamp: tweets[0].timestamp as number,
-              tag: query?.index as string,
-            });
+          // below props only if you need pull down functionality
+          refreshFunction={fetchTweets}
+          pullDownToRefresh
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
           }
-        }}
-        pullDownToRefresh
-        pullDownToRefreshThreshold={50}
-        pullDownToRefreshContent={
-          <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-        }
-        releaseToRefreshContent={
-          <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-        }
-      >
-        {TweetsContent}
-      </InfiniteScroll>
+          releaseToRefreshContent={
+            <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+          }
+        >
+          {TweetsContent}
+        </InfiniteScroll>
+      ) : (
+        <NotFound />
+      )}
     </React.Fragment>
   );
 };
