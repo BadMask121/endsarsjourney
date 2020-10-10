@@ -6,6 +6,7 @@ import Tags from '../components/tags/tags';
 import { lightTheme, darkTheme } from '../theme/theme';
 import { GlobalStyles } from '../theme/global';
 import ToggleSwitch from '../components/switch/switch';
+import Axios from 'axios';
 
 const TagName = [
   {
@@ -30,6 +31,8 @@ const TagName = [
     name: 'EndSars!!!',
   },
 ];
+
+const url = `https://endsars-dot-tweq-5cbdb.appspot.com/tweets?tag=endsars`;
 
 const MediaContent = [
   {
@@ -59,7 +62,39 @@ const MediaContent = [
 ];
 
 export default function Home() {
+  const [tweet, setTweetData] = useState({
+    data: [
+      {
+        conts: '',
+        tweets: [
+          {
+            id: '',
+            timestamp: '',
+            body: '',
+            media: {
+              display_url: '',
+              id: '',
+              id_str: '',
+              media_url: '',
+              media_url_https: '',
+              type: '',
+              url: '',
+            },
+            hashtag: '',
+            user: {
+              id: '',
+              name: '',
+              profile_image_url: '',
+            },
+          },
+        ],
+      },
+    ],
+  });
+
   const [theme, setTheme] = useState('light');
+
+  const [todos, setTodos] = useState([]);
 
   const setMode = (mode: string) => {
     window.localStorage.setItem('theme', mode);
@@ -75,15 +110,20 @@ export default function Home() {
   };
 
   useEffect(() => {
+    Axios.get(url).then((res) => {
+      const response = res.data;
+      setTweetData(response);
+    });
+
     const localTheme = window.localStorage.getItem('theme');
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches &&
-    !localTheme
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localTheme
       ? setMode('dark')
       : localTheme
       ? setTheme(localTheme)
       : setMode('light');
   }, []);
+
+  console.log(tweet, 'tweet data');
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -99,7 +139,9 @@ export default function Home() {
           <link rel='icon' href='/favicon.ico' />
         </Head>
         <h1>End Sars Journey!!!</h1>
-
+        {/* {
+          
+        } */}
         <div className='container-tagWrapper'>
           {TagName.map(({ id, name }) => {
             return <Tags key={id} tagName={name} />;
@@ -108,14 +150,22 @@ export default function Home() {
 
         <div className='container-mediaWrapper'>
           {MediaContent.map(({ id, dateTime, media, username }) => {
-            return (
-              <MediaContainer
-                key={id}
-                dateTime={dateTime}
-                username={username}
-              />
-            );
+            return <MediaContainer key={id} dateTime={dateTime} username={username} />;
           })}
+          {/* {tweet &&
+            tweet.data.map(({ conts, tweets }) => {
+              tweets.map(({ body, hashtag, id, media, timestamp, user }) => {
+                return (
+                  <>
+                    <MediaContainer
+                      key={id}
+                      dateTime={timestamp}
+                      username={user.name}
+                    />
+                  </>
+                );
+              });
+            })} */}
         </div>
       </div>
     </ThemeProvider>
