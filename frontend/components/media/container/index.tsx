@@ -21,13 +21,13 @@ const Container = () => {
     return (
       Array.isArray(tweets) &&
       tweets.map((o) => (
-        <Link key={o.id} href={o.media[0].url} target='__blank'>
-          <MediaContent
-            dateTime={day(o.timestamp).format('DD MMM YYYY, HH:MM')}
-            username={o.user.name}
-            media={o.media}
-          />
-        </Link>
+        <MediaContent
+          key={o.id}
+          dateTime={day(o.timestamp).format('DD MMM YYYY, HH:MM')}
+          username={o.user.name}
+          media={o.media}
+          url={o.media[0].url}
+        />
       ))
     );
   }, [tweets]);
