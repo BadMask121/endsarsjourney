@@ -12,8 +12,9 @@ interface MediaProps {
   media: Media[];
   username: string;
   dateTime: string;
+  url: string;
 }
-const Content = ({ dateTime, media, username }: MediaProps) => {
+const Content = ({ dateTime, media, username, url }: MediaProps) => {
   const _renderMedia = media.map((o, i) => {
     return (
       <Slide key={i} index={i}>
@@ -37,6 +38,9 @@ const Content = ({ dateTime, media, username }: MediaProps) => {
         <Text className='poster' fontWeight={500}>
           {username}
         </Text>
+        <a href={url} target='__blank'>
+          Read More
+        </a>
         <Box d='flex' alignItems='center'>
           <Text className='date'>{dateTime}</Text>
           <IconButton
